@@ -11,16 +11,20 @@ const NotesLayout = () => {
   const [showAddNotes, setShowAddNotes] = useState(false);
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
-  const [editingNote, setEditingNote] = useState(null);
+  const [editingNote, setEditingNote] = useState(null); // ← NEW
   const [searchQuery, setSearchQuery] = useState("");
   const firstRenderRef = useRef(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
+  // Detect desktop/mobile
+  const isMobile = window.innerWidth < 1024; // Matches Tailwind lg breakpoint
+
   // HOME ACTION
   const goHome = () => {
     setShowAddNotes(false);
     setSelectedNote(null);
+    setEditingNote(null);
   };
 
   // DELETE ALL NOTES
@@ -60,11 +64,14 @@ const NotesLayout = () => {
   const deleteNote = (id) => {
     setNotes((prev) => prev.filter((n) => n.id !== id));
     setSelectedNote(null);
+    setEditingNote(null);
   };
 
   const togglePin = (id) => {
     setNotes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned } : n))
+      prev.map((n) =>
+        n.id === id ? { ...n, pinned: !n.pinned } : n
+      )
     );
   };
 
@@ -80,6 +87,7 @@ const NotesLayout = () => {
 
   return (
     <div className="flex h-screen w-full">
+
       {/* SIDEBAR */}
       <Sidebar
         goHome={goHome}
@@ -122,6 +130,7 @@ const NotesLayout = () => {
 
       {/* MAIN CONTENT */}
       <div className="w-full ml-0 lg:ml-[280px] flex flex-col lg:flex-row">
+
         {/* LIST */}
         <List
           notes={filteredNotes}
@@ -139,6 +148,7 @@ const NotesLayout = () => {
               setNotes={setNotes}
               editingNote={editingNote}
               setEditingNote={setEditingNote}
+              setSelectedNote={setSelectedNote}
             />
           ) : (
             <Preview
@@ -146,6 +156,7 @@ const NotesLayout = () => {
               deleteNote={deleteNote}
               setEditingNote={setEditingNote}
               setShowAddNotes={setShowAddNotes}
+              isMobile={false}
             />
           )}
         </div>
@@ -168,9 +179,11 @@ const NotesLayout = () => {
       {/* MOBILE FULLSCREEN PREVIEW */}
       {selectedNote && !showAddNotes && (
         <div className="lg:hidden fixed inset-0 bg-white z-40 flex flex-col">
-          {/* MOBILE HEADER BAR */}
+
+          {/* TOP BAR */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-            {/* BACK BUTTON TAKES PLACE OF HAMBURGER */}
+
+            {/* BACK */}
             <button
               className="bg-gray-900 text-white p-2 rounded-md shadow-md"
               onClick={() => setSelectedNote(null)}
@@ -178,19 +191,19 @@ const NotesLayout = () => {
               Back
             </button>
 
-            {/* EDIT BUTTON */}
+            {/* EDIT */}
             <button
-              className="text-blue-500 font-medium ml-auto mr-5"
+              className="text-blue-500 font-medium ml-auto mr-4"
               onClick={() => {
                 setEditingNote(selectedNote);
-                setSelectedNote(null); // HIDE MOBILE PREVIEW IMMEDIATELY
-                setShowAddNotes(true); // OPEN EDITOR
+                setSelectedNote(null);   // ← ONLY MOBILE SHOULD DO THIS
+                setShowAddNotes(true);
               }}
             >
-              EDIT
+              Edit
             </button>
 
-            {/* DELETE BUTTON */}
+            {/* DELETE */}
             <button
               className="text-red-500 font-medium"
               onClick={() => deleteNote(selectedNote.id)}
@@ -199,9 +212,9 @@ const NotesLayout = () => {
             </button>
           </div>
 
-          {/* PREVIEW CONTENT */}
+          {/* CONTENT */}
           <div className="flex-1 overflow-y-auto p-5">
-            <h1 className="text-3xl font-bold text-gray-900 border-b-2 pb-3 mb-4 border-gray-200 focus:outline-none w-full">
+            <h1 className="text-3xl font-bold text-gray-900 border-b-2 pb-3 mb-4 border-gray-200">
               {selectedNote.title}
             </h1>
 
@@ -212,16 +225,17 @@ const NotesLayout = () => {
         </div>
       )}
 
-      {/* FLOATING "+" BUTTON ON MOBILE */}
+      {/* MOBILE FLOATING + BUTTON */}
       <button
-        className="
-          lg:hidden fixed bottom-6 right-6
-          bg-gray-900 text-white p-4 rounded-full shadow-lg
-        "
-        onClick={() => setShowAddNotes(true)}
+        className="lg:hidden fixed bottom-6 right-6 bg-gray-900 text-white p-4 rounded-full shadow-lg"
+        onClick={() => {
+          setEditingNote(null);
+          setShowAddNotes(true);
+        }}
       >
         <Plus size={26} />
       </button>
+
     </div>
   );
 };
