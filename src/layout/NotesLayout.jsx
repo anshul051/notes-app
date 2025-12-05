@@ -15,6 +15,7 @@ const NotesLayout = () => {
   const firstRenderRef = useRef(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); 
+  const [editingNote, setEditingNote] = useState(null);
 
   // HOME ACTION
   const goHome = () => {
@@ -177,7 +178,7 @@ const NotesLayout = () => {
 
           {/* PREVIEW CONTENT */}
           <div className="flex-1 overflow-y-auto p-5">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 border-b-2 pb-3 mb-4 border-gray-200 focus:outline-none w-full">
               {selectedNote.title}
             </h1>
 

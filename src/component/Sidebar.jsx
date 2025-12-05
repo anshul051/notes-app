@@ -6,6 +6,7 @@ import {
   NotebookPen,
   Menu,
   X,
+  Trash2
 } from "lucide-react";
 
 const Sidebar = ({
@@ -88,6 +89,10 @@ const Sidebar = ({
 
             <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
               <SlidersHorizontal /> Filter
+            </p>
+
+            <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
+              <Trash2 /> Trash
             </p>
           </div>
         </div>

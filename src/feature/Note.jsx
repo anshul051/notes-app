@@ -5,8 +5,8 @@ const Note = ({ note, onClick, togglePin }) => {
   return (
     <div
       onClick={onClick}
-      className="relative w-full group bg-white border-b border-gray-200 p-4 cursor-pointer 
-                 hover:bg-gray-50 transition-all rounded-md shadow-sm"
+      className="relative w-full group bg-gray-100 border-b border-gray-200 p-4 cursor-pointer 
+                 hover:bg-white transition-all rounded-md shadow-sm"
     >
       {/* PIN ICON (same size as trash icon visually) */}
       <div
