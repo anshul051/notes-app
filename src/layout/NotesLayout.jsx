@@ -11,11 +11,11 @@ const NotesLayout = () => {
   const [showAddNotes, setShowAddNotes] = useState(false);
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [editingNote, setEditingNote] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const firstRenderRef = useRef(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); 
-  const [editingNote, setEditingNote] = useState(null);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // HOME ACTION
   const goHome = () => {
@@ -80,7 +80,6 @@ const NotesLayout = () => {
 
   return (
     <div className="flex h-screen w-full">
-
       {/* SIDEBAR */}
       <Sidebar
         goHome={goHome}
@@ -123,7 +122,6 @@ const NotesLayout = () => {
 
       {/* MAIN CONTENT */}
       <div className="w-full ml-0 lg:ml-[280px] flex flex-col lg:flex-row">
-        
         {/* LIST */}
         <List
           notes={filteredNotes}
@@ -136,9 +134,19 @@ const NotesLayout = () => {
         {/* DESKTOP PREVIEW / ADD */}
         <div className="hidden lg:block flex-1">
           {showAddNotes ? (
-            <AddNotes setShowAddNotes={setShowAddNotes} setNotes={setNotes} />
+            <AddNotes
+              setShowAddNotes={setShowAddNotes}
+              setNotes={setNotes}
+              editingNote={editingNote}
+              setEditingNote={setEditingNote}
+            />
           ) : (
-            <Preview note={selectedNote} deleteNote={deleteNote} />
+            <Preview
+              note={selectedNote}
+              deleteNote={deleteNote}
+              setEditingNote={setEditingNote}
+              setShowAddNotes={setShowAddNotes}
+            />
           )}
         </div>
 
@@ -146,7 +154,12 @@ const NotesLayout = () => {
         {showAddNotes && (
           <div className="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
             <div className="bg-white w-[90%] h-[85%] rounded-xl shadow-xl p-4 overflow-y-auto">
-              <AddNotes setShowAddNotes={setShowAddNotes} setNotes={setNotes} />
+              <AddNotes
+                setShowAddNotes={setShowAddNotes}
+                setNotes={setNotes}
+                editingNote={editingNote}
+                setEditingNote={setEditingNote}
+              />
             </div>
           </div>
         )}
@@ -155,16 +168,26 @@ const NotesLayout = () => {
       {/* MOBILE FULLSCREEN PREVIEW */}
       {selectedNote && !showAddNotes && (
         <div className="lg:hidden fixed inset-0 bg-white z-40 flex flex-col">
-
           {/* MOBILE HEADER BAR */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-
             {/* BACK BUTTON TAKES PLACE OF HAMBURGER */}
             <button
               className="bg-gray-900 text-white p-2 rounded-md shadow-md"
               onClick={() => setSelectedNote(null)}
             >
               Back
+            </button>
+
+            {/* EDIT BUTTON */}
+            <button
+              className="text-blue-500 font-medium ml-auto mr-5"
+              onClick={() => {
+                setEditingNote(selectedNote);
+                setSelectedNote(null); // HIDE MOBILE PREVIEW IMMEDIATELY
+                setShowAddNotes(true); // OPEN EDITOR
+              }}
+            >
+              EDIT
             </button>
 
             {/* DELETE BUTTON */}
