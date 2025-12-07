@@ -80,12 +80,51 @@ const AddNotes = ({
         onChange={(e) => setDescription(e.target.value)}
       />
 
+      <div className="flex items-center gap-4 text-sm text-gray-700 mb-3">
+        {/* TAG SELECT */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-500">Tag:</span>
+          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+            <option value="">None</option>
+            <option value="home">Home</option>
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+            <option value="ideas">Ideas</option>
+          </select>
+        </div>
+
+        {/* PRIORITY SELECT */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-500">Priority:</span>
+          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+
+        {/* STATUS */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-500">Status:</span>
+          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+            <option value="active">Active</option>
+            <option value="todo">To-Do</option>
+            <option value="done">Done</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      </div>
+
       {/* SAVE / UPDATE BUTTON */}
       <div
         onClick={handleSave}
         className="fixed bottom-6 right-6 bg-gray-900 rounded-full p-3 hover:bg-gray-800 cursor-pointer shadow-lg"
       >
-        <ChevronRight size={40} className="stroke-white" onClick={() => setSelectedNote(null)} />
+        <ChevronRight
+          size={40}
+          className="stroke-white"
+          onClick={() => setSelectedNote(null)}
+        />
         <span className="sr-only">
           {editingNote ? "Update Note" : "Save Note"}
         </span>
