@@ -13,14 +13,28 @@ const AddNotes = ({
     editingNote ? editingNote.description : ""
   );
 
+  const [tag, setTag] = useState(editingNote ? editingNote.tag : "");
+  const [priority, setPriority] = useState(
+    editingNote ? editingNote.priority : "normal"
+  );
+  const [status, setStatus] = useState(
+    editingNote ? editingNote.status : "active"
+  );
+
   // Sync editingNote → form fields
   useEffect(() => {
     if (editingNote) {
       setTitle(editingNote.title);
       setDescription(editingNote.description);
+      setTag(editingNote.tag || "");
+      setPriority(editingNote.priority || "normal");
+      setStatus(editingNote.status || "active");
     } else {
       setTitle("");
       setDescription("");
+      setTag("");
+      setPriority("normal");
+      setStatus("active");
     }
   }, [editingNote]);
 
@@ -32,7 +46,9 @@ const AddNotes = ({
     if (editingNote) {
       setNotes((prev) =>
         prev.map((n) =>
-          n.id === editingNote.id ? { ...n, title, description } : n
+          n.id === editingNote.id
+            ? { ...n, title, description, tag, priority, status }
+            : n
         )
       );
       setEditingNote(null);
@@ -45,8 +61,12 @@ const AddNotes = ({
       id: Date.now(),
       title,
       description,
+      tag,
+      priority,
+      status,
       createdAt: Date.now(),
       pinned: false,
+      deleted: false,
     };
 
     setNotes((prev) => [newNote, ...prev]);
@@ -84,7 +104,11 @@ const AddNotes = ({
         {/* TAG SELECT */}
         <div className="flex items-center gap-2">
           <span className="text-gray-500">Tag:</span>
-          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+          <select
+            className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+          >
             <option value="">None</option>
             <option value="home">Home</option>
             <option value="work">Work</option>
@@ -96,7 +120,11 @@ const AddNotes = ({
         {/* PRIORITY SELECT */}
         <div className="flex items-center gap-2">
           <span className="text-gray-500">Priority:</span>
-          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+          <select
+            className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
             <option value="normal">Normal</option>
             <option value="high">High</option>
             <option value="urgent">Urgent</option>
@@ -106,7 +134,11 @@ const AddNotes = ({
         {/* STATUS */}
         <div className="flex items-center gap-2">
           <span className="text-gray-500">Status:</span>
-          <select className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer">
+          <select
+            className="border border-gray-300 rounded-md px-2 py-1 bg-white focus:outline-none cursor-pointer"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
             <option value="active">Active</option>
             <option value="todo">To-Do</option>
             <option value="done">Done</option>
