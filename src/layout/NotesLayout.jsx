@@ -16,6 +16,17 @@ const NotesLayout = () => {
   const firstRenderRef = useRef(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [viewTrash, setViewTrash] = useState(false);
+
+  const restoreNote = (id) => {
+    setNotes((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, deleted: false } : n))
+    );
+  };
+
+  const deletePermanent = (id) => {
+    setNotes((prev) => prev.filter((n) => n.id !== id));
+  };
 
   // Detect desktop/mobile
   const isMobile = window.innerWidth < 1024; // Matches Tailwind lg breakpoint
@@ -62,23 +73,28 @@ const NotesLayout = () => {
   }, [notes]);
 
   const deleteNote = (id) => {
-    setNotes((prev) => prev.filter((n) => n.id !== id));
+    setNotes((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, deleted: true } : n))
+    );
     setSelectedNote(null);
     setEditingNote(null);
   };
 
   const togglePin = (id) => {
     setNotes((prev) =>
-      prev.map((n) =>
-        n.id === id ? { ...n, pinned: !n.pinned } : n
-      )
+      prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned } : n))
     );
   };
 
-  const sortedNotes = [...notes].sort((a, b) =>
+  // 1. REMOVE DELETED NOTES
+  const activeNotes = notes.filter((n) => !n.deleted);
+
+  // 2. SORT PINNED FIRST
+  const sortedNotes = [...activeNotes].sort((a, b) =>
     a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1
   );
 
+  // 3. APPLY SEARCH FILTER
   const filteredNotes = sortedNotes.filter(
     (note) =>
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -87,7 +103,6 @@ const NotesLayout = () => {
 
   return (
     <div className="flex h-screen w-full">
-
       {/* SIDEBAR */}
       <Sidebar
         goHome={goHome}
@@ -96,6 +111,8 @@ const NotesLayout = () => {
         mobileSidebarOpen={mobileSidebarOpen}
         setMobileSidebarOpen={setMobileSidebarOpen}
         selectedNote={selectedNote}
+        viewTrash={viewTrash}
+        setViewTrash={setViewTrash}
       />
 
       {/* RESET POPUP */}
@@ -130,15 +147,23 @@ const NotesLayout = () => {
 
       {/* MAIN CONTENT */}
       <div className="w-full ml-0 lg:ml-[280px] flex flex-col lg:flex-row">
-
         {/* LIST */}
-        <List
-          notes={filteredNotes}
-          setSelectedNote={setSelectedNote}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          togglePin={togglePin}
-        />
+        {viewTrash ? (
+          <TrashList
+            notes={notes.filter((n) => n.deleted)}
+            restoreNote={restoreNote}
+            deletePermanent={deletePermanent}
+            setSelectedNote={setSelectedNote}
+          />
+        ) : (
+          <List
+            notes={filteredNotes}
+            setSelectedNote={setSelectedNote}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            togglePin={togglePin}
+          />
+        )}
 
         {/* DESKTOP PREVIEW / ADD */}
         <div className="hidden lg:block flex-1">
@@ -170,6 +195,7 @@ const NotesLayout = () => {
                 setNotes={setNotes}
                 editingNote={editingNote}
                 setEditingNote={setEditingNote}
+                setSelectedNote={setSelectedNote}
               />
             </div>
           </div>
@@ -179,10 +205,8 @@ const NotesLayout = () => {
       {/* MOBILE FULLSCREEN PREVIEW */}
       {selectedNote && !showAddNotes && (
         <div className="lg:hidden fixed inset-0 bg-white z-40 flex flex-col">
-
           {/* TOP BAR */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-
             {/* BACK */}
             <button
               className="bg-gray-900 text-white p-2 rounded-md shadow-md"
@@ -196,7 +220,7 @@ const NotesLayout = () => {
               className="text-blue-500 font-medium ml-auto mr-4"
               onClick={() => {
                 setEditingNote(selectedNote);
-                setSelectedNote(null);   // ← ONLY MOBILE SHOULD DO THIS
+                setSelectedNote(null); // ← ONLY MOBILE SHOULD DO THIS
                 setShowAddNotes(true);
               }}
             >
@@ -235,7 +259,6 @@ const NotesLayout = () => {
       >
         <Plus size={26} />
       </button>
-
     </div>
   );
 };

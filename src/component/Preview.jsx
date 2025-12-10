@@ -10,6 +10,8 @@ const Preview = ({ note, deleteNote, setEditingNote, setShowAddNotes }) => {
   }
 
   return (
+
+    
     <div className="h-screen flex-1 bg-white p-6 sm:p-8 lg:p-10 overflow-y-auto custom-scroll">
 
       {/* ================= TITLE ================= */}

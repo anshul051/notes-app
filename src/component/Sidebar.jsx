@@ -6,7 +6,7 @@ import {
   NotebookPen,
   Menu,
   X,
-  Trash2
+  Trash2,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -16,6 +16,8 @@ const Sidebar = ({
   mobileSidebarOpen,
   setMobileSidebarOpen,
   selectedNote,
+  viewTrash,
+  setViewTrash,
 }) => {
   return (
     <>
@@ -61,6 +63,7 @@ const Sidebar = ({
               className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white"
               onClick={() => {
                 goHome();
+                setViewTrash(false);
                 setMobileSidebarOpen(false);
               }}
             >
@@ -74,7 +77,7 @@ const Sidebar = ({
                 setMobileSidebarOpen(false);
               }}
             >
-              <Plus /> Create
+              <Plus onClick={() => setViewTrash(false)} /> Create
             </p>
 
             <p
@@ -82,17 +85,21 @@ const Sidebar = ({
               onClick={() => {
                 setShowResetConfirm(true);
                 setMobileSidebarOpen(false);
+                setViewTrash(false);
               }}
             >
               <RotateCcw /> Reset
             </p>
 
             <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
-              <SlidersHorizontal /> Filter
+              <SlidersHorizontal onClick={() => setViewTrash(false)} /> Filter
             </p>
 
             <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
-              <Trash2 /> Trash
+              <Trash2 onClick={() => {
+                setViewTrash(true);
+                setShowAddNotes(false);
+              }} /> Trash
             </p>
           </div>
         </div>
