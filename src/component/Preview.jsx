@@ -1,6 +1,14 @@
 import { Trash2, Pencil } from "lucide-react";
 
-const Preview = ({ note, deleteNote, setEditingNote, setShowAddNotes }) => {
+const Preview = ({
+  note,
+  deleteNote,
+  restoreNote,
+  deletePermanent,
+  setEditingNote,
+  setShowAddNotes,
+}) => {
+  // No note selected
   if (!note) {
     return (
       <div className="h-screen flex-1 bg-white p-6 flex items-center justify-center custom-scroll">
@@ -9,25 +17,45 @@ const Preview = ({ note, deleteNote, setEditingNote, setShowAddNotes }) => {
     );
   }
 
+  // ================= TRASH MODE =================
+  if (note.deleted) {
+    return (
+      <div className="h-screen flex-1 bg-white p-6 sm:p-8 lg:p-10 overflow-y-auto custom-scroll">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{note.title}</h1>
+
+        <p className="text-gray-500 mb-6">This note is in Trash.</p>
+
+        <div className="flex gap-3">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            onClick={() => restoreNote(note.id)}
+          >
+            Restore
+          </button>
+
+          <button
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+            onClick={() => deletePermanent(note.id)}
+          >
+            Delete Forever
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ================= NORMAL MODE =================
   return (
-
-    
     <div className="h-screen flex-1 bg-white p-6 sm:p-8 lg:p-10 overflow-y-auto custom-scroll">
+      {/* TITLE */}
+      <h1 className="text-4xl font-bold text-gray-900 mb-2">{note.title}</h1>
 
-      {/* ================= TITLE ================= */}
-      <h1 className="text-4xl font-bold text-gray-900 mb-2">
-        {note.title}
-      </h1>
-
-      {/* FULL WIDTH UNDERLINE */}
       <hr className="border-gray-300 mb-4" />
 
-      {/* ================= TAG CHIPS + ACTION BUTTONS ================= */}
+      {/* TAGS + ACTION BUTTONS */}
       <div className="flex items-center justify-between mb-6">
-
-        {/* TAG CHIPS */}
+        {/* TAGS */}
         <div className="flex items-center gap-3 flex-wrap">
-
           {note.tag && (
             <span className="px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">
               {note.tag}
@@ -45,7 +73,6 @@ const Preview = ({ note, deleteNote, setEditingNote, setShowAddNotes }) => {
               {note.status}
             </span>
           )}
-
         </div>
 
         {/* ACTION BUTTONS */}
@@ -58,16 +85,16 @@ const Preview = ({ note, deleteNote, setEditingNote, setShowAddNotes }) => {
               setShowAddNotes(true);
             }}
           />
+
           <Trash2
             size={24}
             className="text-red-500 cursor-pointer hover:text-red-600"
             onClick={() => deleteNote(note.id)}
           />
         </div>
-
       </div>
 
-      {/* ================= DESCRIPTION ================= */}
+      {/* DESCRIPTION */}
       <p className="text-gray-700 text-lg leading-7 whitespace-pre-wrap pb-10">
         {note.description}
       </p>

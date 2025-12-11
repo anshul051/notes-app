@@ -65,6 +65,7 @@ const Sidebar = ({
                 goHome();
                 setViewTrash(false);
                 setMobileSidebarOpen(false);
+                setViewTrash(false);
               }}
             >
               <House /> Home
@@ -95,11 +96,15 @@ const Sidebar = ({
               <SlidersHorizontal onClick={() => setViewTrash(false)} /> Filter
             </p>
 
-            <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
-              <Trash2 onClick={() => {
-                setViewTrash(true);
+            <p
+              className="hover:text-white hover:scale-105 transition-all flex gap-2 cursor-pointer"
+              onClick={() => {
+                setViewTrash(true); // <-- switch to Trash view
                 setShowAddNotes(false);
-              }} /> Trash
+                setMobileSidebarOpen(false);
+              }}
+            >
+              <Trash2 /> Trash
             </p>
           </div>
         </div>
