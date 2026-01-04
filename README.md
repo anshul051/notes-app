@@ -1,109 +1,125 @@
-# NotesMan – Advanced Notes Management Application
+# 📝 NotesMan — Advanced Notes Management Application
 
-NotesMan is a production-grade note-taking web application built with React.js and Tailwind CSS. It provides a complete workflow for creating, editing, organizing, and managing notes with a clean, responsive, and intuitive interface. The project focuses heavily on UI/UX quality, modular architecture, and maintainable state management.
+NotesMan is a production-grade note-taking web application built with React.js and Tailwind CSS. It provides a complete workflow for creating, editing, organizing, and managing notes through a clean, responsive, and intuitive user interface.
 
-## Features
-• Create, edit, delete, and update notes
+The project emphasizes real-world UI/UX patterns, modular architecture, and predictable state management, making it a strong example of a scalable frontend application.
 
-• Pin/unpin notes with automatic sorting
+---
 
-• Search notes in real time using title or description
+## 🚀 Features
 
-• Tagging system (Home, Work, Personal, Ideas)
+- Create, edit, update, and delete notes
+- Pin and unpin notes with automatic sorting
+- Real-time search using title or description
+- Tagging system (Home, Work, Personal, Ideas)
+- Priority levels (Normal, High, Urgent)
+- Status tracking (Active, To-Do, Done, Archived)
+- Soft-delete Trash system with Restore and Delete Forever
+- Dedicated Trash view with isolated controls
+- Fully responsive (desktop and mobile)
+- Mobile:
+  - Modal-based Add Notes
+  - Full-screen preview panel
+- Persistent offline storage using localStorage
+- Reusable, clean component architecture
+- Smooth transitions, hover effects, and custom scrollbars
+- Fully controlled components with predictable state flow
 
-• Priority levels (Normal, High, Urgent)
+---
 
-• Status tracking (Active, To-Do, Done, Archived)
+## 🧱 Technology Stack
 
-• Soft-delete Trash system with Restore and Delete Forever options
+- React.js
+- Tailwind CSS
+- Lucide Icons
+- LocalStorage
+- Vite
 
-• Dedicated Trash view with isolated controls
+---
 
-• Mobile and desktop responsive layout
+## 🏗️ Architecture Overview
 
-• Mobile sliding preview panel
+The application follows a modular, component-driven architecture.
 
-• Add Notes modal for mobile devices
+### Core Components
 
-• Persistent storage using localStorage
+- **NotesLayout**
+  - Central controller for global state
+  - Handles notes, selection, search, trash logic, and persistence
 
-• Clean component structure with reusable components
+- **List**
+  - Displays active notes
+  - Handles selection and pinning
 
-• Custom scrollbars, smooth transitions, hover interactions
+- **TrashList**
+  - Displays deleted notes
+  - Provides Restore and Delete Forever actions
 
-• Error-free controlled components and predictable state management
+- **Preview**
+  - Dynamic note preview panel
+  - Supports edit and delete actions
 
-## Technology Stack
-• React.js
+- **AddNotes**
+  - Controlled form component
+  - Used for both creating and editing notes
 
-• Tailwind CSS
+- **Sidebar**
+  - Global navigation (Home, Create, Reset, Filter, Trash)
 
-• Lucide Icons
+### State Management
 
-• LocalStorage for offline persistence
+- Single source of truth via lifted state in NotesLayout
+- Controlled inputs for all forms
+- Derived state for search, sorting, and filtering
+- Persistent sync with localStorage
 
-• Vite (build and dev environment)
+---
 
-## Architecture Overview
-The application is built using a modular component architecture:
+## ✨ Key Highlights
 
-• NotesLayout: Main controller component handling global state, view logic, search, trash, and data persistence
+- Production-quality UI and UX
+- Complete CRUD functionality
+- Clean separation of concerns
+- State-driven navigation across views
+- Safe, non-destructive deletion workflow
+- Desktop: split-pane layout
+- Mobile: modal + full-screen interactions
 
-• List: Displays active notes with pin controls
+---
 
-• TrashList: Dedicated list for deleted notes with Restore and Delete Forever actions
+## ⚙️ Installation
 
-• Preview: Dynamic preview panel with edit/delete/support for trash mode
-
-• AddNotes: Controlled form used for both creating and editing notes
-
-• Sidebar: Navigation and global actions (Home, Create, Reset, Trash)
-
-The app uses a combination of React state, controlled inputs, conditional rendering, and filtered derived state to maintain a predictable and scalable UI flow. All notes are stored and synced in localStorage for instant persistence across browser reloads.
-
-## Key Highlights
-• Production-quality UI interactions and responsive design
-
-• Full CRUD functionality with advanced organization features
-
-• Clean separation of concerns between layout, logic, and reusable UI components
-
-• State-driven navigation between Create, Preview, List, and Trash views
-
-• Non-destructive deletion workflow for safe note management
-
-• Desktop → Split layout
-
-• Mobile → Modal-based add notes + full-screen preview panel
-
-## Installation
 Clone the repository and install dependencies:
 
-   | git clone <your-repo-link>
+```bash
+git clone https://github.com/anshul051/notes-app
+cd notes-man
+npm install
+npm run dev
+```
+---
 
-   | cd notes-man
-   | npm install
-   | npm run dev
+## ▶️ Usage
 
-## Usage
+Run the application locally:
 
-   | Run the application locally: npm run dev
+```bash
+npm run dev
+```
 
-   | Open the app at:
-    http://localhost:5173/
+Open in your browser: http://localhost:5173/
 
-## Future Improvements
-• Dark mode
+---
 
-• Cloud sync using a backend (Node.js + MongoDB)
+## 🔮 Future Improvements
+- Dark mode support
+- Backend integration (Node.js + MongoDB)
+- User authentication
+- Custom tag creation
+- Drag-and-drop note reordering
+- Rich-text editor for notes
 
-• User authentication
+---
 
-• Custom tag creation
-
-• Drag-and-drop note reordering
-
-• Rich-text editor for descriptions
-
-## License
+## 📄 License
 This project is open-source and available under the MIT License.
