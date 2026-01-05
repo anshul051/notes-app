@@ -118,13 +118,13 @@ const NotesLayout = () => {
 
             <div className="flex justify-end gap-3">
               <button
-                className="px-4 py-2 bg-gray-200 rounded-md"
+                className="px-4 py-2 cursor-pointer bg-gray-200 rounded-md"
                 onClick={() => setShowResetConfirm(false)}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                className="px-4 py-2 cursor-pointer bg-red-500 text-white rounded-md"
                 onClick={resetAllNotes}
               >
                 Delete All
@@ -155,14 +155,24 @@ const NotesLayout = () => {
 
             {/* DESKTOP PREVIEW */}
             <div className="hidden lg:block flex-1">
-              <Preview
-                note={selectedNote}
-                deleteNote={deleteNote}
-                restoreNote={restoreNote}
-                deletePermanent={deletePermanent}
-                setEditingNote={setEditingNote}
-                setShowAddNotes={setShowAddNotes}
-              />
+              {showAddNotes ? (
+                <AddNotes
+                  setShowAddNotes={setShowAddNotes}
+                  setNotes={setNotes}
+                  editingNote={editingNote}
+                  setEditingNote={setEditingNote}
+                  setSelectedNote={setSelectedNote}
+                />
+              ) : (
+                <Preview
+                  note={selectedNote}
+                  deleteNote={deleteNote}
+                  restoreNote={restoreNote}
+                  deletePermanent={deletePermanent}
+                  setEditingNote={setEditingNote}
+                  setShowAddNotes={setShowAddNotes}
+                />
+              )}
             </div>
           </>
         )}

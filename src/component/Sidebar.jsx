@@ -63,7 +63,6 @@ const Sidebar = ({
               className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white"
               onClick={() => {
                 goHome();
-                setViewTrash(false);
                 setMobileSidebarOpen(false);
                 setViewTrash(false);
               }}
@@ -74,11 +73,12 @@ const Sidebar = ({
             <p
               className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white"
               onClick={() => {
+                setViewTrash(false);
                 setShowAddNotes(true);
                 setMobileSidebarOpen(false);
               }}
             >
-              <Plus onClick={() => setViewTrash(false)} /> Create
+              <Plus /> Create
             </p>
 
             <p
