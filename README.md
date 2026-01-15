@@ -4,8 +4,6 @@ NotesMan is a production-grade note-taking web application built with React.js a
 
 The project emphasizes real-world UI/UX patterns, modular architecture, and predictable state management, making it a strong example of a scalable frontend application.
 
----
-
 ## 🚀 Features
 
 - Create, edit, update, and delete notes
@@ -25,8 +23,6 @@ The project emphasizes real-world UI/UX patterns, modular architecture, and pred
 - Smooth transitions, hover effects, and custom scrollbars
 - Fully controlled components with predictable state flow
 
----
-
 ## 🧱 Technology Stack
 
 - React.js
@@ -34,8 +30,6 @@ The project emphasizes real-world UI/UX patterns, modular architecture, and pred
 - Lucide Icons
 - LocalStorage
 - Vite
-
----
 
 ## 🏗️ Architecture Overview
 
@@ -73,8 +67,6 @@ The application follows a modular, component-driven architecture.
 - Derived state for search, sorting, and filtering
 - Persistent sync with localStorage
 
----
-
 ## ✨ Key Highlights
 
 - Production-quality UI and UX
@@ -84,8 +76,6 @@ The application follows a modular, component-driven architecture.
 - Safe, non-destructive deletion workflow
 - Desktop: split-pane layout
 - Mobile: modal + full-screen interactions
-
----
 
 ## ⚙️ Installation
 
@@ -97,7 +87,6 @@ cd notes-man
 npm install
 npm run dev
 ```
----
 
 ## ▶️ Usage
 
@@ -109,8 +98,6 @@ npm run dev
 
 Open in your browser: http://localhost:5173/
 
----
-
 ## 🔮 Future Improvements
 - Dark mode support
 - Backend integration (Node.js + MongoDB)
@@ -118,8 +105,6 @@ Open in your browser: http://localhost:5173/
 - Custom tag creation
 - Drag-and-drop note reordering
 - Rich-text editor for notes
-
----
 
 ## 📄 License
 This project is open-source and available under the MIT License.
