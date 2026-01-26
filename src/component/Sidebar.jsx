@@ -93,8 +93,15 @@ const Sidebar = ({
               <RotateCcw /> Reset
             </p>
 
-            <p className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white">
-              <SlidersHorizontal onClick={() => setViewTrash(false)} /> Filter
+            <p
+              className="hover:opacity-100 hover:scale-105 transition-all flex gap-2 hover:text-white"
+              onClick={() => {
+                setShowFilters(true);
+                setMobileSidebarOpen(false);
+                setViewTrash(false);
+              }}
+            >
+              <SlidersHorizontal /> Filter
             </p>
 
             <p
