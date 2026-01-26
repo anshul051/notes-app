@@ -3,6 +3,7 @@ import Sidebar from "../component/Sidebar";
 import List from "../component/List";
 import Preview from "../component/Preview";
 import AddNotes from "../feature/AddNotes";
+import FiltersPopup from "../component/FiltersPopup";
 import { Plus } from "lucide-react";
 import TrashList from "../component/TrashList";
 
@@ -18,6 +19,12 @@ const NotesLayout = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [viewTrash, setViewTrash] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    tag: null,
+    priority: null,
+    status: null,
+  });
 
   const deleteNote = (id) => {
     setNotes((prev) =>
@@ -48,6 +55,21 @@ const NotesLayout = () => {
     setSelectedNote(null);
     setShowResetConfirm(false);
     localStorage.removeItem(STORAGE_KEY);
+  };
+
+  const updateFilter = (filterType, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterType]: prev[filterType] === value ? null : value,
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      tag: null,
+      priority: null,
+      status: null,
+    });
   };
 
   useEffect(() => {
@@ -85,11 +107,18 @@ const NotesLayout = () => {
     a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1
   );
 
-  const filteredNotes = sortedNotes.filter(
-    (note) =>
-      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      note.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredNotes = sortedNotes
+    .filter(
+      (note) =>
+        note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        note.description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((note) => {
+      if (filters.tag && note.tag !== filters.tag) return false;
+      if (filters.priority && note.priority !== filters.priority) return false;
+      if (filters.status && note.status !== filters.status) return false;
+      return true;
+    });
 
   return (
     <div className="flex h-screen w-full">
@@ -103,7 +132,18 @@ const NotesLayout = () => {
         selectedNote={selectedNote}
         viewTrash={viewTrash}
         setViewTrash={setViewTrash}
+        setShowFilters={setShowFilters}
       />
+
+      {/* FILTERS POPUP */}
+      {showFilters && (
+        <FiltersPopup
+          filters={filters}
+          updateFilter={updateFilter}
+          clearFilters={clearFilters}
+          close={() => setShowFilters(false)}
+        />
+      )}
 
       {/* RESET POPUP */}
       {showResetConfirm && (

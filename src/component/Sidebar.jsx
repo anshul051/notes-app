@@ -18,6 +18,7 @@ const Sidebar = ({
   selectedNote,
   viewTrash,
   setViewTrash,
+  setShowFilters,
 }) => {
   return (
     <>
